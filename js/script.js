@@ -167,6 +167,7 @@ function initScrollReveal() {
 function renderCategories() {
     categoriesGrid.innerHTML = categories.map(cat => `
         <div class="category-card" data-category="${cat.id}">
+            <div class="card-glare"></div>
             <span class="category-icon">${icons[cat.icon] || icons.book}</span>
             <div class="category-name">${cat.name}</div>
             <div class="category-count">${toPersianNum(cat.count)} کتاب</div>
@@ -236,6 +237,7 @@ function renderBooks() {
         const inWishlist = wishlist.includes(book.id);
         return `
         <article class="book-card" style="animation-delay: ${i * 0.05}s" data-id="${book.id}">
+            <div class="card-glare"></div>
             <div class="book-cover" style="background: ${book.coverColor}">
                 ${book.isBestseller ? `<span class="bestseller-badge">${icons.flame} پرفروش</span>` : ''}
                 <button class="book-wishlist-btn ${inWishlist ? 'active' : ''}" data-wish="${book.id}" aria-label="افزودن به علاقه‌مندی">
@@ -603,6 +605,7 @@ let reviewIndex = 0;
 function renderReviews() {
     reviewsTrack.innerHTML = reviews.map(r => `
         <div class="review-card">
+            <div class="card-glare"></div>
             <div class="review-header">
                 <div class="review-avatar" style="background: ${r.avatarColor}">${r.avatar}</div>
                 <div>

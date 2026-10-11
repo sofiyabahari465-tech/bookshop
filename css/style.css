@@ -2624,3 +2624,333 @@ img {
 .wish-move-btn { font-size: 10px; padding: 5px; gap: 3px; margin-top: 6px; }
 .wish-move-btn .icon { font-size: 10px; }
 .cart-footer .btn { padding: 8px 14px; font-size: 12px; }
+
+/* ============================================================
+   3D PREMIUM EFFECTS - v11
+   ============================================================ */
+
+/* ===== Particle Canvas ===== */
+#particleCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.7;
+}
+body > *:not(#particleCanvas) {
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== Cursor Glow ===== */
+.cursor-glow {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(253, 121, 168, 0.18), transparent 60%);
+    pointer-events: none;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out;
+    mix-blend-mode: screen;
+}
+
+/* ===== Glassmorphism Cards ===== */
+.book-card,
+.category-card,
+.review-card,
+.about-card,
+.feature {
+    background: rgba(255, 255, 255, 0.65) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow:
+        0 8px 32px rgba(232, 67, 147, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    transform-style: preserve-3d;
+    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+                box-shadow 0.3s ease !important;
+    will-change: transform;
+    position: relative;
+    overflow: visible !important;
+}
+[data-theme="dark"] .book-card,
+[data-theme="dark"] .category-card,
+[data-theme="dark"] .review-card,
+[data-theme="dark"] .about-card,
+[data-theme="dark"] .feature {
+    background: rgba(42, 26, 48, 0.6) !important;
+    border: 1px solid rgba(253, 121, 168, 0.2) !important;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(253, 121, 168, 0.15) !important;
+}
+
+/* Card Glare (3D light effect) */
+.card-glare {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 3;
+    mix-blend-mode: overlay;
+}
+
+/* Book card enhanced hover */
+.book-card:hover {
+    box-shadow:
+        0 25px 60px rgba(232, 67, 147, 0.3),
+        0 0 0 1px rgba(253, 121, 168, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+/* ===== Book Cover 3D ===== */
+.book-cover {
+    transform-style: preserve-3d;
+    position: relative;
+}
+.book-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.25) 50%, transparent 70%);
+    transform: translateZ(20px);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+.book-card:hover .book-cover::after {
+    opacity: 1;
+}
+.book-cover-img {
+    transform: translateZ(0);
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1) !important;
+}
+.book-card:hover .book-cover-img {
+    transform: translateZ(40px) scale(1.08);
+}
+
+/* Bestseller badge 3D */
+.bestseller-badge {
+    transform: translateZ(30px);
+    box-shadow: 0 4px 12px rgba(255, 118, 117, 0.5) !important;
+}
+
+/* Wishlist button 3D */
+.book-wishlist-btn,
+.book-quick-view {
+    transform: translateZ(35px);
+}
+
+/* ===== Hero 3D ===== */
+.hero {
+    perspective: 1200px;
+    transform-style: preserve-3d;
+}
+.hero-title {
+    text-shadow:
+        0 2px 0 rgba(232, 67, 147, 0.1),
+        0 4px 20px rgba(232, 67, 147, 0.3),
+        0 8px 40px rgba(162, 155, 254, 0.2);
+    animation: heroFloat 5s ease-in-out infinite;
+}
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #ff9ff3, #e84393, #a29bfe, #ff9ff3);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 4s ease infinite;
+    filter: drop-shadow(0 4px 12px rgba(232, 67, 147, 0.4));
+}
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Floating books 3D */
+.book-stack {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+.floating-book {
+    transform-style: preserve-3d;
+    box-shadow:
+        0 20px 50px rgba(232, 67, 147, 0.4),
+        0 0 30px rgba(253, 121, 168, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+.floating-book::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), transparent 50%);
+    border-radius: inherit;
+    pointer-events: none;
+}
+.floating-book img {
+    transform: translateZ(5px);
+}
+
+/* ===== Buttons 3D ===== */
+.btn {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease, box-shadow 0.3s ease !important;
+}
+.btn-primary {
+    box-shadow:
+        0 8px 20px rgba(232, 67, 147, 0.4),
+        0 0 0 1px rgba(253, 121, 168, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+.btn-primary:hover {
+    box-shadow:
+        0 15px 35px rgba(232, 67, 147, 0.55),
+        0 0 0 1px rgba(253, 121, 168, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent 50%);
+    pointer-events: none;
+}
+
+.icon-btn {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.5) !important;
+    box-shadow:
+        0 4px 12px rgba(232, 67, 147, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+}
+[data-theme="dark"] .icon-btn {
+    background: rgba(42, 26, 48, 0.6) !important;
+}
+
+/* ===== Navbar Glass ===== */
+.navbar.scrolled {
+    background: rgba(255, 245, 249, 0.8) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 4px 20px rgba(232, 67, 147, 0.1) !important;
+}
+[data-theme="dark"] .navbar.scrolled {
+    background: rgba(26, 14, 31, 0.8) !important;
+}
+
+/* ===== Section Headers Glow ===== */
+.section-title {
+    text-shadow:
+        0 2px 10px rgba(232, 67, 147, 0.15),
+        0 4px 20px rgba(162, 155, 254, 0.1);
+}
+
+/* ===== Reveal 3D Animation ===== */
+.reveal-3d {
+    opacity: 0;
+    transform: translateY(40px) rotateX(-10deg);
+    transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1),
+                transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
+}
+.reveal-3d.visible {
+    opacity: 1;
+    transform: translateY(0) rotateX(0) !important;
+}
+
+/* ===== Feature Icons 3D ===== */
+.feature-icon {
+    background: linear-gradient(135deg, rgba(253, 121, 168, 0.15), rgba(162, 155, 254, 0.15)) !important;
+    box-shadow:
+        0 4px 12px rgba(232, 67, 147, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    transform: translateZ(0);
+    transition: transform 0.3s !important;
+}
+.feature:hover .feature-icon {
+    transform: translateZ(20px) scale(1.1);
+}
+
+/* ===== Newsletter 3D ===== */
+.newsletter-box {
+    box-shadow:
+        0 30px 80px rgba(232, 67, 147, 0.4),
+        0 0 0 1px rgba(253, 121, 168, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    transform-style: preserve-3d;
+}
+
+/* ===== Category Cards Glow ===== */
+.category-card {
+    position: relative;
+}
+.category-card::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, #ff9ff3, transparent, #a29bfe);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.4s;
+}
+.category-card:hover::after {
+    opacity: 0.6;
+}
+
+/* ===== Toast 3D ===== */
+.toast {
+    backdrop-filter: blur(20px);
+    background: rgba(45, 27, 61, 0.85) !important;
+    box-shadow:
+        0 20px 50px rgba(232, 67, 147, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ===== Modal 3D ===== */
+.book-modal {
+    box-shadow:
+        0 40px 100px rgba(232, 67, 147, 0.4),
+        0 0 0 1px rgba(253, 121, 168, 0.3) !important;
+}
+.modal-cover {
+    transform-style: preserve-3d;
+}
+.modal-cover img {
+    transform: translateZ(0);
+    transition: transform 0.5s !important;
+}
+
+/* ===== Reduce motion ===== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+    #particleCanvas { display: none; }
+}
+
+/* ===== Mobile - lighter effects ===== */
+@media (max-width: 768px) {
+    #particleCanvas { opacity: 0.4; }
+    .cursor-glow { display: none; }
+    .book-card, .category-card, .review-card, .about-card, .feature {
+        backdrop-filter: blur(10px);
+    }
+}
+
