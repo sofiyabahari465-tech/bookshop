@@ -14,6 +14,7 @@ const books = [
         pages: 320,
         year: 1402,
         coverColor: "linear-gradient(135deg, #ff6b6b, #ee5a6f)",
+        cover: "assets/covers/novel-1.png",
         discount: 20,
         isBestseller: true,
         description: "داستان پرالتهابی از عشق، خیانت و رستگاری. رمانی که خواننده را در تاریک‌ترین گوشه‌های روح انسان همراهی می‌کند و نشان می‌دهد که حتی در میان ویرانه‌های یک رابطه، امیدی برای شروعی دوباره وجود دارد."
@@ -32,6 +33,7 @@ const books = [
         pages: 412,
         year: 1403,
         coverColor: "linear-gradient(135deg, #4ecdc4, #44a8a0)",
+        cover: "assets/covers/science-1.png",
         discount: 0,
         isBestseller: true,
         description: "کتابی که دنیای شگفت‌انگیز فیزیک کوانتوم را بدون فرمول‌های پیچیده برای همه قابل فهم می‌کند. نویسنده با مثال‌های روزمره و زبانی ساده، مفاهیم عمیق فیزیک مدرن را شرح می‌دهد."
@@ -50,6 +52,7 @@ const books = [
         pages: 528,
         year: 1401,
         coverColor: "linear-gradient(135deg, #6c5ce7, #a29bfe)",
+        cover: "assets/covers/philosophy-1.png",
         discount: 19,
         isBestseller: false,
         description: "مروری جامع بر سیر تطور فلسفه اسلامی از کندی تا ملاصدرا. این اثر به خواننده کمک می‌کند تا مبانی فکری تمدن اسلامی را بشناسد و چگونگی تأثیر آن بر فلسفه غرب را درک کند."
@@ -68,6 +71,7 @@ const books = [
         pages: 624,
         year: 1403,
         coverColor: "linear-gradient(135deg, #fd79a8, #e84393)",
+        cover: "assets/covers/tech-1.png",
         discount: 13,
         isBestseller: true,
         description: "راهنمای کامل نوشتن کد پایتون تمیز، خوانا و قابل نگهداری. از اصول SOLID تا الگوهای طراحی، این کتاب به شما کمک می‌کند تا از یک برنامه‌نویس معمولی به یک حرفه‌ای تبدیل شوید."
@@ -86,6 +90,7 @@ const books = [
         pages: 280,
         year: 1402,
         coverColor: "linear-gradient(135deg, #ffe66d, #ffc847)",
+        cover: "assets/covers/novel-2.png",
         discount: 0,
         isBestseller: false,
         description: "روایتی گرم و انسانی از زندگی مردی که خنده را به پناهگاهی در برابر سختی‌های زندگی تبدیل کرد. داستانی درباره‌ی مقاومت، عشق و قدرت تغییر."
@@ -104,6 +109,7 @@ const books = [
         pages: 368,
         year: 1402,
         coverColor: "linear-gradient(135deg, #00b894, #00cec9)",
+        cover: "assets/covers/business-1.png",
         discount: 19,
         isBestseller: true,
         description: "۱۲ رمز طلایی که هر کارآفرین موفق باید بداند. نویسنده با تحلیل داستان‌های واقعی شرکت‌های بزرگ، اصول عملی موفقیت در کسب‌وکار را به اشتراک می‌گذارد."
@@ -122,6 +128,7 @@ const books = [
         pages: 296,
         year: 1403,
         coverColor: "linear-gradient(135deg, #ee5a6f, #f368e0)",
+        cover: "assets/covers/novel-3.png",
         discount: 19,
         isBestseller: false,
         description: "روایتی نفس‌گیر از زنده ماندن در شرایطی که همه چیز در پایان به نظر می‌رسد. رمانی درباره‌ی امید، شجاعت و قدرت اراده انسان."
@@ -140,6 +147,7 @@ const books = [
         pages: 456,
         year: 1403,
         coverColor: "linear-gradient(135deg, #6c5ce7, #a29bfe)",
+        cover: "assets/covers/tech-2.png",
         discount: 0,
         isBestseller: true,
         description: "این کتاب مفاهیم پایه‌ای هوش مصنوعی، یادگیری ماشین و شبکه‌های عصبی را با مثال‌های کاربردی و پروژه‌های واقعی به شما آموزش می‌دهد. مناسب برای مبتدی‌ها و متخصصین."
@@ -158,6 +166,7 @@ const books = [
         pages: 312,
         year: 1402,
         coverColor: "linear-gradient(135deg, #fdcb6e, #e17055)",
+        cover: "assets/covers/psychology-1.png",
         discount: 19,
         isBestseller: true,
         description: "راهکارهای عملی روان‌شناسی مثبت‌گرا برای رسیدن به شادی پایدار. نویسنده با تکیه بر تحقیقات علمی، تمرین‌های کاربردی برای زندگی بهتر ارائه می‌دهد."
@@ -176,6 +185,7 @@ const books = [
         pages: 264,
         year: 1401,
         coverColor: "linear-gradient(135deg, #0984e3, #6c5ce7)",
+        cover: "assets/covers/science-2.png",
         discount: 0,
         isBestseller: false,
         description: "توضیح ساده و شهودی نظریه نسبیت خاص و عام انیشتین. بدون نیاز به دانش ریاضی پیشرفته، مفاهیم انحنای فضا-زمان و گرانش را درک خواهید کرد."
@@ -194,6 +204,7 @@ const books = [
         pages: 384,
         year: 1403,
         coverColor: "linear-gradient(135deg, #ff7675, #fd79a8)",
+        cover: "assets/covers/cooking-1.png",
         discount: 19,
         isBestseller: false,
         description: "مجموعه‌ای از ۲۵۰ دستور غذای اصیل ایرانی به همراه خاطرات خانوادگی. هر دستور غذا با داستانی گرم از آشپزخانه مادری همراه است که طعم خاصی به غذا می‌بخشد."
@@ -212,6 +223,7 @@ const books = [
         pages: 280,
         year: 1402,
         coverColor: "linear-gradient(135deg, #00cec9, #0984e3)",
+        cover: "assets/covers/business-2.png",
         discount: 18,
         isBestseller: false,
         description: "تکنیک‌های نوین مدیریت زمان برای دنیای پرمشغله امروز. از روش پومودورو تا سیستم Getting Things Done، این کتاب به شما کمک می‌کند تا بهره‌وری خود را دو برابر کنید."
@@ -230,6 +242,7 @@ const books = [
         pages: 348,
         year: 1403,
         coverColor: "linear-gradient(135deg, #a29bfe, #6c5ce7)",
+        cover: "assets/covers/psychology-2.png",
         discount: 0,
         isBestseller: false,
         description: "کاوش در ناخودآگاه و قدرت‌های پنهان ذهن انسان. این کتاب شما را با تکنیک‌های مدیتیشن، ذهن‌آگاهی و درمان شناختی آشنا می‌کند."
@@ -248,6 +261,7 @@ const books = [
         pages: 472,
         year: 1401,
         coverColor: "linear-gradient(135deg, #e17055, #fdcb6e)",
+        cover: "assets/covers/history-1.png",
         discount: 18,
         isBestseller: true,
         description: "سفری شگفت‌انگیز در دل اساطیر و افسانه‌های ایران باستان. از کیومرث تا ضحاک، از رستم تا اسفندیار — داستان‌هایی که هویت فرهنگی ما را شکل داده‌اند."
@@ -266,6 +280,7 @@ const books = [
         pages: 680,
         year: 1403,
         coverColor: "linear-gradient(135deg, #feca57, #ff9ff3)",
+        cover: "assets/covers/tech-3.png",
         discount: 16,
         isBestseller: true,
         description: "جامع‌ترین منبع فارسی آموزش جاوااسکریپت مدرن. شامل ES6+, TypeScript، React و Node.js با پروژه‌های کاربردی واقعی. مناسب برای ورود به دنیای توسعه وب."
@@ -284,6 +299,7 @@ const books = [
         pages: 232,
         year: 1402,
         coverColor: "linear-gradient(135deg, #fd79a8, #fdcb6e)",
+        cover: "assets/covers/psychology-3.png",
         discount: 0,
         isBestseller: false,
         description: "راهنمایی عملی برای زندگی شادتر و معنادارتر. این کتاب به شما یاد می‌دهد چگونه با تمرین قدردانی، شفقت با خود و روابط سالم، زندگی پرطراوت‌تری بسازید."

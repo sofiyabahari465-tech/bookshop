@@ -238,7 +238,6 @@ function renderBooks() {
 
     noResults.style.display = 'none';
     booksGrid.innerHTML = filtered.map((book, i) => {
-        const coverIcon = icons[bookCoverIcons[book.category]] || icons.book;
         const inWishlist = wishlist.includes(book.id);
         return `
         <article class="book-card" style="animation-delay: ${i * 0.05}s" data-id="${book.id}">
@@ -247,7 +246,7 @@ function renderBooks() {
                 <button class="book-wishlist-btn ${inWishlist ? 'active' : ''}" data-wish="${book.id}" aria-label="افزودن به علاقه‌مندی">
                     ${inWishlist ? icons.heartFilled : icons.heart}
                 </button>
-                <span class="book-cover-emoji">${coverIcon}</span>
+                <img src="${book.cover}" alt="${book.title}" class="book-cover-img" loading="lazy">
                 <button class="book-quick-view" data-view="${book.id}" aria-label="مشاهده سریع">${icons.eye}</button>
             </div>
             <div class="book-info">
@@ -298,10 +297,11 @@ function renderBooks() {
 function renderFlashSale() {
     const flashItems = books.filter(b => b.discount > 0).slice(0, 4);
     flashBooks.innerHTML = flashItems.map(book => {
-        const coverIcon = icons[bookCoverIcons[book.category]] || icons.book;
         return `
         <div class="flash-book" data-id="${book.id}">
-            <div class="flash-book-cover" style="background: ${book.coverColor}">${coverIcon}</div>
+            <div class="flash-book-cover" style="background: ${book.coverColor}">
+                <img src="${book.cover}" alt="${book.title}" loading="lazy">
+            </div>
             <div class="flash-book-title">${book.title}</div>
             <div class="flash-book-price">${formatPrice(book.price)}</div>
             <div class="flash-book-old-price">${formatPrice(book.oldPrice)}</div>
@@ -350,7 +350,7 @@ function addToCart(bookId) {
     } else {
         cart.push({
             id: book.id, title: book.title, author: book.author,
-            price: book.price, coverColor: book.coverColor,
+            price: book.price, coverColor: book.coverColor, cover: book.cover,
             category: book.category, qty: 1
         });
     }
@@ -416,10 +416,11 @@ function renderCart() {
     cartEmpty.style.display = 'none';
 
     cartItems.innerHTML = cart.map(item => {
-        const coverIcon = icons[bookCoverIcons[item.category]] || icons.book;
         return `
         <div class="cart-item">
-            <div class="cart-item-cover" style="background: ${item.coverColor}">${coverIcon}</div>
+            <div class="cart-item-cover" style="background: ${item.coverColor}">
+                <img src="${item.cover}" alt="${item.title}" loading="lazy">
+            </div>
             <div class="cart-item-info">
                 <div class="cart-item-title">${item.title}</div>
                 <div class="cart-item-author">${item.author}</div>
@@ -493,10 +494,11 @@ function renderWishlist() {
     wishlistItems.innerHTML = wishlist.map(id => {
         const book = books.find(b => b.id === id);
         if (!book) return '';
-        const coverIcon = icons[bookCoverIcons[book.category]] || icons.book;
         return `
         <div class="cart-item">
-            <div class="cart-item-cover" style="background: ${book.coverColor}">${coverIcon}</div>
+            <div class="cart-item-cover" style="background: ${book.coverColor}">
+                <img src="${book.cover}" alt="${book.title}" loading="lazy">
+            </div>
             <div class="cart-item-info">
                 <div class="cart-item-title">${book.title}</div>
                 <div class="cart-item-author">${book.author}</div>
@@ -524,11 +526,12 @@ function renderWishlist() {
 function openModal(bookId) {
     const book = books.find(b => b.id === bookId);
     if (!book) return;
-    const coverIcon = icons[bookCoverIcons[book.category]] || icons.book;
     const inWishlist = wishlist.includes(book.id);
 
     modalBody.innerHTML = `
-        <div class="modal-cover" style="background: ${book.coverColor}">${coverIcon}</div>
+        <div class="modal-cover" style="background: ${book.coverColor}">
+            <img src="${book.cover}" alt="${book.title}">
+        </div>
         <div class="modal-info">
             <div class="modal-category">${book.categoryName}</div>
             <h2 class="modal-title">${book.title}</h2>
