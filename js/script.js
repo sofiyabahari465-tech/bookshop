@@ -299,16 +299,24 @@ function renderFlashSale() {
         <div class="flash-book" data-id="${book.id}">
             <div class="flash-book-cover" style="background: ${book.coverColor}">
                 <img src="${book.cover}" alt="${book.title}" loading="lazy">
+                <button class="flash-add-btn" data-add="${book.id}" aria-label="افزودن به سبد">${icons.plus}</button>
             </div>
-            <div class="flash-book-title">${book.title}</div>
-            <div class="flash-book-price">${formatPrice(book.price)}</div>
-            <div class="flash-book-old-price">${formatPrice(book.oldPrice)}</div>
+            <div class="flash-book-prices">
+                <span class="flash-book-price">${formatPrice(book.price)}</span>
+                <span class="flash-book-old-price">${formatPrice(book.oldPrice)}</span>
+            </div>
         </div>
         `;
     }).join('');
 
     flashBooks.querySelectorAll('.flash-book').forEach(el => {
         el.addEventListener('click', () => openModal(parseInt(el.dataset.id)));
+    });
+    flashBooks.querySelectorAll('.flash-add-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            addToCart(parseInt(btn.dataset.add));
+        });
     });
 }
 
