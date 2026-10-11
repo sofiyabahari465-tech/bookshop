@@ -3,18 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="کتابخونه‌ی آنلاین - فروشگاه اینترنتی کتاب با بهترین قیمت">
+    <meta name="description" content="کتاب‌لند - بزرگ‌ترین فروشگاه آنلاین کتاب با ارسال سریع و بهترین قیمت">
     <title>کتاب‌لند | فروشگاه آنلاین کتاب</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <div class="container banner-content">
+            <span id="bannerIcon"></span>
+            <span>ارسال رایگان برای سفارش‌های بالای ۲۰۰ هزار تومان — همین حالا سفارش بده!</span>
+        </div>
+    </div>
+
     <!-- Navbar -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#" class="logo">
-                <span class="logo-icon">📚</span>
+                <span class="logo-icon" id="logoIcon"></span>
                 <span class="logo-text">کتاب<span class="logo-accent">لند</span></span>
             </a>
             <ul class="nav-links" id="navLinks">
@@ -25,12 +33,16 @@
                 <li><a href="#contact" class="nav-link">تماس</a></li>
             </ul>
             <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle" aria-label="تغییر تم">
-                    <span class="theme-icon">🌙</span>
+                <button class="icon-btn theme-toggle" id="themeToggle" aria-label="تغییر تم">
+                    <span class="icon-wrap" id="themeIcon"></span>
                 </button>
-                <button class="cart-btn" id="cartBtn" aria-label="سبد خرید">
-                    <span class="cart-icon">🛒</span>
-                    <span class="cart-count" id="cartCount">0</span>
+                <button class="icon-btn wishlist-btn" id="wishlistBtn" aria-label="علاقه‌مندی‌ها">
+                    <span class="icon-wrap" id="wishlistIcon"></span>
+                    <span class="badge wishlist-count" id="wishlistCount">0</span>
+                </button>
+                <button class="icon-btn cart-btn" id="cartBtn" aria-label="سبد خرید">
+                    <span class="icon-wrap" id="cartIcon"></span>
+                    <span class="badge cart-count" id="cartCount">0</span>
                 </button>
                 <button class="menu-toggle" id="menuToggle" aria-label="منو">
                     <span></span>
@@ -50,7 +62,7 @@
         </div>
         <div class="hero-container">
             <div class="hero-content">
-                <span class="hero-badge">✨ بیش از ۱۰،۰۰۰ کتاب آماده ارسال</span>
+                <span class="hero-badge"><span id="heroBadgeIcon"></span> بیش از ۱۰،۰۰۰ کتاب آماده ارسال</span>
                 <h1 class="hero-title">
                     دنیای <span class="gradient-text">کتاب</span> را
                     <br>کشف کن
@@ -62,7 +74,7 @@
                 <div class="hero-actions">
                     <a href="#books" class="btn btn-primary">
                         <span>مشاهده کتاب‌ها</span>
-                        <span class="btn-arrow">←</span>
+                        <span class="btn-arrow" id="btnArrow1"></span>
                     </a>
                     <a href="#categories" class="btn btn-secondary">دسته‌بندی‌ها</a>
                 </div>
@@ -85,11 +97,11 @@
             </div>
             <div class="hero-visual">
                 <div class="book-stack">
-                    <div class="floating-book book-1">📖</div>
-                    <div class="floating-book book-2">📕</div>
-                    <div class="floating-book book-3">📗</div>
-                    <div class="floating-book book-4">📙</div>
-                    <div class="floating-book book-5">📔</div>
+                    <div class="floating-book book-1"><span id="fb1"></span></div>
+                    <div class="floating-book book-2"><span id="fb2"></span></div>
+                    <div class="floating-book book-3"><span id="fb3"></span></div>
+                    <div class="floating-book book-4"><span id="fb4"></span></div>
+                    <div class="floating-book book-5"><span id="fb5"></span></div>
                 </div>
             </div>
         </div>
@@ -100,28 +112,28 @@
         <div class="container">
             <div class="features-grid">
                 <div class="feature">
-                    <span class="feature-icon">🚚</span>
+                    <span class="feature-icon" id="featIcon1"></span>
                     <div>
                         <h4>ارسال رایگان</h4>
                         <p>برای سفارش‌های بالای ۲۰۰ هزار تومان</p>
                     </div>
                 </div>
                 <div class="feature">
-                    <span class="feature-icon">🔒</span>
+                    <span class="feature-icon" id="featIcon2"></span>
                     <div>
                         <h4>پرداخت امن</h4>
                         <p>با درگاه‌های معتبر بانکی</p>
                     </div>
                 </div>
                 <div class="feature">
-                    <span class="feature-icon">↩️</span>
+                    <span class="feature-icon" id="featIcon3"></span>
                     <div>
                         <h4>ضمانت بازگشت</h4>
                         <p>تا ۷ روز بعد از خرید</p>
                     </div>
                 </div>
                 <div class="feature">
-                    <span class="feature-icon">💬</span>
+                    <span class="feature-icon" id="featIcon4"></span>
                     <div>
                         <h4>پشتیبانی</h4>
                         <p>همه روزه ۲۴ ساعته</p>
@@ -131,10 +143,46 @@
         </div>
     </section>
 
+    <!-- Flash Sale Section -->
+    <section class="flash-sale">
+        <div class="container">
+            <div class="flash-sale-box">
+                <div class="flash-sale-header">
+                    <div class="flash-sale-title">
+                        <span class="flash-icon" id="flashIcon"></span>
+                        <div>
+                            <h2>فروش ویژه</h2>
+                            <p>تخفیف‌های شگفت‌انگیز فقط تا پایان این هفته</p>
+                        </div>
+                    </div>
+                    <div class="flash-timer" id="flashTimer">
+                        <div class="timer-unit">
+                            <span class="timer-value" id="hours">۰۰</span>
+                            <span class="timer-label">ساعت</span>
+                        </div>
+                        <span class="timer-colon">:</span>
+                        <div class="timer-unit">
+                            <span class="timer-value" id="minutes">۰۰</span>
+                            <span class="timer-label">دقیقه</span>
+                        </div>
+                        <span class="timer-colon">:</span>
+                        <div class="timer-unit">
+                            <span class="timer-value" id="seconds">۰۰</span>
+                            <span class="timer-label">ثانیه</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flash-books" id="flashBooks">
+                    <!-- Filled by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Categories -->
     <section class="categories" id="categories">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <span class="section-tag">دسته‌بندی‌ها</span>
                 <h2 class="section-title">دنبال چی می‌گردی؟</h2>
                 <p class="section-desc">کتاب‌ها رو بر اساس موضوع دلخواهت مرور کن</p>
@@ -148,16 +196,16 @@
     <!-- Books Section -->
     <section class="books-section" id="books">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <span class="section-tag">محصولات</span>
                 <h2 class="section-title">کتاب‌های پرفروش</h2>
                 <p class="section-desc">منتخب بهترین کتاب‌های حال بازار</p>
             </div>
 
             <!-- Search & Filter Bar -->
-            <div class="filter-bar">
+            <div class="filter-bar reveal">
                 <div class="search-box">
-                    <span class="search-icon">🔍</span>
+                    <span class="search-icon" id="searchIcon"></span>
                     <input type="text" id="searchInput" placeholder="نام کتاب یا نویسنده رو بنویس...">
                 </div>
                 <div class="filter-controls">
@@ -179,7 +227,7 @@
             </div>
 
             <div class="no-results" id="noResults" style="display:none;">
-                <span class="no-results-icon">📭</span>
+                <span class="no-results-icon" id="noResIcon"></span>
                 <p>کتابی پیدا نشد. یه چیز دیگه امتحان کن!</p>
             </div>
         </div>
@@ -189,7 +237,7 @@
     <section class="about" id="about">
         <div class="container">
             <div class="about-grid">
-                <div class="about-content">
+                <div class="about-content reveal">
                     <span class="section-tag">درباره ما</span>
                     <h2 class="section-title">چرا کتاب‌لند؟</h2>
                     <p class="about-text">
@@ -197,24 +245,45 @@
                         تیم ما با عشق به کتاب و دانش فنی، بهترین تجربه خرید آنلاین رو برات آماده کرده.
                     </p>
                     <ul class="about-list">
-                        <li><span class="check">✓</span> تنوع بیش از ۱۰ هزار عنوان کتاب</li>
-                        <li><span class="check">✓</span> ارسال سریع به سراسر کشور</li>
-                        <li><span class="check">✓</span> قیمت منصفانه و تخفیف‌های ویژه</li>
-                        <li><span class="check">✓</span> تیم پشتیبانی حرفه‌ای و دوستانه</li>
+                        <li><span class="check" id="check1"></span> تنوع بیش از ۱۰ هزار عنوان کتاب</li>
+                        <li><span class="check" id="check2"></span> ارسال سریع به سراسر کشور</li>
+                        <li><span class="check" id="check3"></span> قیمت منصفانه و تخفیف‌های ویژه</li>
+                        <li><span class="check" id="check4"></span> تیم پشتیبانی حرفه‌ای و دوستانه</li>
                     </ul>
                 </div>
-                <div class="about-visual">
+                <div class="about-visual reveal">
                     <div class="about-card">
-                        <div class="about-card-icon">🎯</div>
+                        <div class="about-card-icon" id="aboutIcon1"></div>
                         <h3>ماموریت ما</h3>
                         <p>کتاب‌خوانی رو برای همه آسان و لذت‌بخش کنیم</p>
                     </div>
                     <div class="about-card">
-                        <div class="about-card-icon">💡</div>
+                        <div class="about-card-icon" id="aboutIcon2"></div>
                         <h3>چشم‌انداز</h3>
                         <p>بزرگ‌ترین پلتفرم فروش کتاب آنلاین منطقه</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">نظرات مشتریان</span>
+                <h2 class="section-title">مشتری‌ها چی می‌گن؟</h2>
+                <p class="section-desc">بیش از ۵۰ هزار مشتری راضی، تجربه‌شون رو به اشتراک گذاشتن</p>
+            </div>
+            <div class="reviews-slider reveal">
+                <button class="slider-btn slider-prev" id="prevReview" aria-label="قبلی"></button>
+                <div class="reviews-track" id="reviewsTrack">
+                    <!-- Filled by JS -->
+                </div>
+                <button class="slider-btn slider-next" id="nextReview" aria-label="بعدی"></button>
+            </div>
+            <div class="slider-dots" id="sliderDots">
+                <!-- Filled by JS -->
             </div>
         </div>
     </section>
@@ -224,7 +293,8 @@
         <div class="container">
             <div class="newsletter-box">
                 <div class="newsletter-content">
-                    <h2>عضو خبرنامه ما بشو 📨</h2>
+                    <span class="newsletter-icon" id="newsIcon"></span>
+                    <h2>عضو خبرنامه ما بشو</h2>
                     <p>از جدیدترین کتاب‌ها و تخفیف‌های ویژه باخبر شو</p>
                 </div>
                 <form class="newsletter-form" id="newsletterForm">
@@ -241,15 +311,15 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <a href="#" class="logo">
-                        <span class="logo-icon">📚</span>
+                        <span class="logo-icon" id="footerLogoIcon"></span>
                         <span class="logo-text">کتاب<span class="logo-accent">لند</span></span>
                     </a>
                     <p class="footer-desc">بزرگ‌ترین فروشگاه آنلاین کتاب با تنوع بی‌نظیر و خدمات حرفه‌ای</p>
                     <div class="social-links">
-                        <a href="#" aria-label="اینستاگرام">📷</a>
-                        <a href="#" aria-label="تلگرام">✈️</a>
-                        <a href="#" aria-label="توییتر">🐦</a>
-                        <a href="#" aria-label="یوتیوب">▶️</a>
+                        <a href="#" aria-label="اینستاگرام" id="socialIg"></a>
+                        <a href="#" aria-label="تلگرام" id="socialTg"></a>
+                        <a href="#" aria-label="توییتر" id="socialTw"></a>
+                        <a href="#" aria-label="یوتیوب" id="socialYt"></a>
                     </div>
                 </div>
                 <div class="footer-col">
@@ -273,16 +343,16 @@
                 <div class="footer-col">
                     <h4>تماس با ما</h4>
                     <ul class="contact-info">
-                        <li>📍 تهران، خیابان کتاب، پلاک ۱۰</li>
-                        <li>📞 ۰۲۱-۱۲۳۴۵۶۷۸</li>
-                        <li>✉️ info@ketabland.ir</li>
-                        <li>🕐 شنبه تا جمعه، ۹ تا ۲۱</li>
+                        <li><span id="addrIcon"></span> تهران، خیابان کتاب، پلاک ۱۰</li>
+                        <li><span id="phoneIcon"></span> ۰۲۱-۱۲۳۴۵۶۷۸</li>
+                        <li><span id="mailIcon"></span> info@ketabland.ir</li>
+                        <li><span id="clockIcon"></span> شنبه تا جمعه، ۹ تا ۲۱</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>© ۱۴۰۳ کتاب‌لند. تمام حقوق محفوظ است.</p>
-                <p>ساخته شده با ❤️ در ایران</p>
+                <p>ساخته شده با عشق در ایران</p>
             </div>
         </div>
     </footer>
@@ -291,32 +361,68 @@
     <div class="cart-overlay" id="cartOverlay"></div>
     <aside class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
-            <h3>سبد خرید <span class="cart-item-count" id="cartItemCount">۰</span></h3>
-            <button class="cart-close" id="cartClose">✕</button>
+            <h3><span id="cartHeaderIcon"></span> سبد خرید <span class="cart-item-count" id="cartItemCount">۰</span></h3>
+            <button class="cart-close" id="cartClose"><span id="cartCloseIcon"></span></button>
         </div>
-        <div class="cart-items" id="cartItems">
-            <!-- Filled by JS -->
-        </div>
+        <div class="cart-items" id="cartItems"></div>
         <div class="cart-footer" id="cartFooter">
-            <div class="cart-total">
-                <span>مجموع:</span>
-                <span class="cart-total-price" id="cartTotal">۰ تومان</span>
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>جمع کل:</span>
+                    <span id="cartSubtotal">۰ تومان</span>
+                </div>
+                <div class="summary-row">
+                    <span>هزینه ارسال:</span>
+                    <span class="free-shipping">رایگان</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>مبلغ نهایی:</span>
+                    <span id="cartTotal">۰ تومان</span>
+                </div>
             </div>
             <button class="btn btn-primary btn-full" id="checkoutBtn">تسویه حساب</button>
         </div>
         <div class="cart-empty" id="cartEmpty">
-            <span class="cart-empty-icon">🛒</span>
+            <span class="cart-empty-icon" id="cartEmptyIcon"></span>
             <p>سبد خریدت خالیه!</p>
             <span>کتاب‌های مورد علاقه‌ت رو اضافه کن</span>
+            <button class="btn btn-secondary" id="startShopping">شروع خرید</button>
         </div>
     </aside>
 
+    <!-- Wishlist Sidebar -->
+    <aside class="wishlist-sidebar" id="wishlistSidebar">
+        <div class="cart-header">
+            <h3><span id="wishHeaderIcon"></span> علاقه‌مندی‌ها <span class="cart-item-count" id="wishItemCount">۰</span></h3>
+            <button class="cart-close" id="wishClose"><span id="wishCloseIcon"></span></button>
+        </div>
+        <div class="cart-items" id="wishlistItems"></div>
+        <div class="cart-empty" id="wishlistEmpty">
+            <span class="cart-empty-icon" id="wishEmptyIcon"></span>
+            <p>لیست علاقه‌مندی‌ت خالیه!</p>
+            <span>کتاب‌های مورد علاقه‌ت رو نشانه‌گذاری کن</span>
+        </div>
+    </aside>
+
+    <!-- Book Detail Modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="book-modal" id="bookModal">
+        <button class="modal-close" id="modalClose"><span id="modalCloseIcon"></span></button>
+        <div class="modal-body" id="modalBody">
+            <!-- Filled by JS -->
+        </div>
+    </div>
+
     <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon"></span>
+        <span class="toast-text"></span>
+    </div>
 
     <!-- Back to top -->
-    <button class="back-to-top" id="backToTop" aria-label="بازگشت به بالا">↑</button>
+    <button class="back-to-top" id="backToTop" aria-label="بازگشت به بالا"><span id="backTopIcon"></span></button>
 
+    <script src="js/icons.js"></script>
     <script src="js/data.js"></script>
     <script src="js/script.js"></script>
 </body>

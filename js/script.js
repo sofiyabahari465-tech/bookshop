@@ -1,15 +1,17 @@
 // ===== State Management =====
 let cart = JSON.parse(localStorage.getItem('bookland-cart') || '[]');
+let wishlist = JSON.parse(localStorage.getItem('bookland-wishlist') || '[]');
 let activeCategory = 'all';
 let searchQuery = '';
 let sortMode = 'default';
+let currentReviewIndex = 0;
 
 // ===== DOM Elements =====
 const navbar = document.getElementById('navbar');
 const menuToggle = document.getElementById('menuToggle');
 const navLinks = document.getElementById('navLinks');
 const themeToggle = document.getElementById('themeToggle');
-const themeIcon = themeToggle.querySelector('.theme-icon');
+const themeIcon = document.getElementById('themeIcon');
 const cartBtn = document.getElementById('cartBtn');
 const cartSidebar = document.getElementById('cartSidebar');
 const cartOverlay = document.getElementById('cartOverlay');
@@ -19,27 +21,115 @@ const cartEmpty = document.getElementById('cartEmpty');
 const cartFooter = document.getElementById('cartFooter');
 const cartCount = document.getElementById('cartCount');
 const cartItemCount = document.getElementById('cartItemCount');
+const cartSubtotal = document.getElementById('cartSubtotal');
 const cartTotal = document.getElementById('cartTotal');
 const booksGrid = document.getElementById('booksGrid');
 const categoriesGrid = document.getElementById('categoriesGrid');
+const flashBooks = document.getElementById('flashBooks');
 const searchInput = document.getElementById('searchInput');
 const categoryFilter = document.getElementById('categoryFilter');
 const sortFilter = document.getElementById('sortFilter');
 const noResults = document.getElementById('noResults');
 const toast = document.getElementById('toast');
+const toastIcon = document.getElementById('toastIcon');
 const backToTop = document.getElementById('backToTop');
 const checkoutBtn = document.getElementById('checkoutBtn');
 const newsletterForm = document.getElementById('newsletterForm');
+const reviewsTrack = document.getElementById('reviewsTrack');
+const sliderDots = document.getElementById('sliderDots');
+const prevReviewBtn = document.getElementById('prevReview');
+const nextReviewBtn = document.getElementById('nextReview');
+
+// Modal
+const bookModal = document.getElementById('bookModal');
+const modalOverlay = document.getElementById('modalOverlay');
+const modalClose = document.getElementById('modalClose');
+const modalBody = document.getElementById('modalBody');
+
+// Wishlist
+const wishlistBtn = document.getElementById('wishlistBtn');
+const wishlistSidebar = document.getElementById('wishlistSidebar');
+const wishlistItems = document.getElementById('wishlistItems');
+const wishlistEmpty = document.getElementById('wishlistEmpty');
+const wishlistCount = document.getElementById('wishlistCount');
+const wishItemCount = document.getElementById('wishItemCount');
+const wishClose = document.getElementById('wishClose');
+const startShopping = document.getElementById('startShopping');
 
 // ===== Init =====
 document.addEventListener('DOMContentLoaded', () => {
+    injectIcons();
     initTheme();
     renderCategories();
     renderBooks();
+    renderFlashSale();
     populateCategoryFilter();
     renderCart();
+    renderWishlist();
+    renderReviews();
+    startTimer();
     bindEvents();
+    initScrollReveal();
 });
+
+// ===== Inject Static Icons =====
+function injectIcons() {
+    document.getElementById('bannerIcon').innerHTML = icons.truck;
+    document.getElementById('logoIcon').innerHTML = icons.logo;
+    document.getElementById('footerLogoIcon').innerHTML = icons.logo;
+    document.getElementById('themeIcon').innerHTML = icons.moon;
+    document.getElementById('wishlistIcon').innerHTML = icons.heart;
+    document.getElementById('cartIcon').innerHTML = icons.cart;
+    document.getElementById('heroBadgeIcon').innerHTML = icons.sparkles;
+    document.getElementById('btnArrow1').innerHTML = icons.arrowLeft;
+    document.getElementById('searchIcon').innerHTML = icons.search;
+    document.getElementById('noResIcon').innerHTML = icons.book;
+    document.getElementById('flashIcon').innerHTML = icons.flame;
+    document.getElementById('newsIcon').innerHTML = icons.bell;
+    document.getElementById('backTopIcon').innerHTML = icons.arrowUp;
+    document.getElementById('cartHeaderIcon').innerHTML = icons.cart;
+    document.getElementById('cartCloseIcon').innerHTML = icons.close;
+    document.getElementById('cartEmptyIcon').innerHTML = icons.shoppingBag;
+    document.getElementById('wishHeaderIcon').innerHTML = icons.heart;
+    document.getElementById('wishCloseIcon').innerHTML = icons.close;
+    document.getElementById('wishEmptyIcon').innerHTML = icons.heart;
+    document.getElementById('modalCloseIcon').innerHTML = icons.close;
+
+    // Features
+    document.getElementById('featIcon1').innerHTML = icons.truck;
+    document.getElementById('featIcon2').innerHTML = icons.shield;
+    document.getElementById('featIcon3').innerHTML = icons.refresh;
+    document.getElementById('featIcon4').innerHTML = icons.headset;
+
+    // About
+    document.getElementById('aboutIcon1').innerHTML = icons.sparkles;
+    document.getElementById('aboutIcon2').innerHTML = icons.eye;
+    document.getElementById('check1').innerHTML = icons.check;
+    document.getElementById('check2').innerHTML = icons.check;
+    document.getElementById('check3').innerHTML = icons.check;
+    document.getElementById('check4').innerHTML = icons.check;
+
+    // Footer
+    document.getElementById('socialIg').innerHTML = icons.instagram;
+    document.getElementById('socialTg').innerHTML = icons.telegram;
+    document.getElementById('socialTw').innerHTML = icons.twitter;
+    document.getElementById('socialYt').innerHTML = icons.youtube;
+    document.getElementById('addrIcon').innerHTML = icons.mapPin;
+    document.getElementById('phoneIcon').innerHTML = icons.phone;
+    document.getElementById('mailIcon').innerHTML = icons.mail;
+    document.getElementById('clockIcon').innerHTML = icons.clock;
+
+    // Floating books
+    document.getElementById('fb1').innerHTML = icons.coverNovel;
+    document.getElementById('fb2').innerHTML = icons.coverScience;
+    document.getElementById('fb3').innerHTML = icons.coverBusiness;
+    document.getElementById('fb4').innerHTML = icons.coverTech;
+    document.getElementById('fb5').innerHTML = icons.coverPsychology;
+
+    // Slider arrows
+    prevReviewBtn.innerHTML = icons.chevronRight;
+    nextReviewBtn.innerHTML = icons.chevronLeft;
+}
 
 // ===== Theme =====
 function initTheme() {
@@ -49,7 +139,7 @@ function initTheme() {
 
 function setTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    themeIcon.innerHTML = theme === 'dark' ? icons.sun : icons.moon;
     localStorage.setItem('bookland-theme', theme);
 }
 
@@ -58,11 +148,24 @@ function toggleTheme() {
     setTheme(current === 'dark' ? 'light' : 'dark');
 }
 
+// ===== Scroll Reveal =====
+function initScrollReveal() {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
 // ===== Render Categories =====
 function renderCategories() {
     categoriesGrid.innerHTML = categories.map(cat => `
         <div class="category-card" data-category="${cat.id}">
-            <span class="category-icon">${cat.icon}</span>
+            <span class="category-icon">${icons[cat.icon] || icons.book}</span>
             <div class="category-name">${cat.name}</div>
             <div class="category-count">${toPersianNum(cat.count)} کتاب</div>
         </div>
@@ -89,16 +192,23 @@ function populateCategoryFilter() {
     });
 }
 
+// ===== Generate Star Rating HTML =====
+function starRating(rating) {
+    let html = '';
+    for (let i = 1; i <= 5; i++) {
+        html += i <= Math.floor(rating) ? icons.star : icons.starOutline;
+    }
+    return html;
+}
+
 // ===== Render Books =====
 function renderBooks() {
     let filtered = [...books];
 
-    // Filter by category
     if (activeCategory !== 'all') {
         filtered = filtered.filter(b => b.category === activeCategory);
     }
 
-    // Filter by search
     if (searchQuery) {
         const q = searchQuery.toLowerCase();
         filtered = filtered.filter(b =>
@@ -107,17 +217,10 @@ function renderBooks() {
         );
     }
 
-    // Sort
     switch (sortMode) {
-        case 'price-low':
-            filtered.sort((a, b) => a.price - b.price);
-            break;
-        case 'price-high':
-            filtered.sort((a, b) => b.price - a.price);
-            break;
-        case 'rating':
-            filtered.sort((a, b) => b.rating - a.rating);
-            break;
+        case 'price-low': filtered.sort((a, b) => a.price - b.price); break;
+        case 'price-high': filtered.sort((a, b) => b.price - a.price); break;
+        case 'rating': filtered.sort((a, b) => b.rating - a.rating); break;
     }
 
     if (filtered.length === 0) {
@@ -127,18 +230,25 @@ function renderBooks() {
     }
 
     noResults.style.display = 'none';
-    booksGrid.innerHTML = filtered.map((book, i) => `
-        <article class="book-card" style="animation-delay: ${i * 0.05}s">
+    booksGrid.innerHTML = filtered.map((book, i) => {
+        const coverIcon = icons[bookCoverIcons[book.category]] || icons.book;
+        const inWishlist = wishlist.includes(book.id);
+        return `
+        <article class="book-card" style="animation-delay: ${i * 0.05}s" data-id="${book.id}">
             <div class="book-cover" style="background: ${book.coverColor}">
-                ${book.discount > 0 ? `<span class="book-discount-badge">٪${toPersianNum(book.discount)} تخفیف</span>` : ''}
-                <span class="book-cover-emoji">${book.cover}</span>
+                ${book.isBestseller ? `<span class="bestseller-badge">${icons.flame} پرفروش</span>` : ''}
+                <button class="book-wishlist-btn ${inWishlist ? 'active' : ''}" data-wish="${book.id}" aria-label="افزودن به علاقه‌مندی">
+                    ${inWishlist ? icons.heartFilled : icons.heart}
+                </button>
+                <span class="book-cover-emoji">${coverIcon}</span>
+                <button class="book-quick-view" data-view="${book.id}" aria-label="مشاهده سریع">${icons.eye}</button>
             </div>
             <div class="book-info">
                 <span class="book-category">${book.categoryName}</span>
                 <h3 class="book-title">${book.title}</h3>
                 <p class="book-author">${book.author}</p>
                 <div class="book-rating">
-                    <span class="book-rating-stars">${'★'.repeat(Math.floor(book.rating))}${book.rating % 1 >= 0.5 ? '⯨' : ''}</span>
+                    <span class="book-rating-stars">${starRating(book.rating)}</span>
                     <span class="book-rating-count">${toPersianNum(book.rating)} (${toPersianNum(book.ratingCount)})</span>
                 </div>
                 <div class="book-price-row">
@@ -146,46 +256,102 @@ function renderBooks() {
                         <span class="book-price">${formatPrice(book.price)}</span>
                         ${book.oldPrice > 0 ? `<span class="book-old-price">${formatPrice(book.oldPrice)}</span>` : ''}
                     </div>
-                    <button class="add-to-cart" data-id="${book.id}" aria-label="افزودن به سبد">+</button>
+                    <button class="add-to-cart" data-id="${book.id}" aria-label="افزودن به سبد">${icons.plus}</button>
                 </div>
             </div>
         </article>
-    `).join('');
+        `;
+    }).join('');
 
-    // Bind add-to-cart buttons
+    // Bind events
     booksGrid.querySelectorAll('.add-to-cart').forEach(btn => {
         btn.addEventListener('click', e => {
             e.stopPropagation();
             addToCart(parseInt(btn.dataset.id));
         });
     });
+    booksGrid.querySelectorAll('.book-wishlist-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            toggleWishlist(parseInt(btn.dataset.wish));
+        });
+    });
+    booksGrid.querySelectorAll('.book-quick-view').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            openModal(parseInt(btn.dataset.view));
+        });
+    });
+    booksGrid.querySelectorAll('.book-card').forEach(card => {
+        card.addEventListener('click', () => openModal(parseInt(card.dataset.id)));
+    });
+}
+
+// ===== Flash Sale =====
+function renderFlashSale() {
+    const flashItems = books.filter(b => b.discount > 0).slice(0, 4);
+    flashBooks.innerHTML = flashItems.map(book => {
+        const coverIcon = icons[bookCoverIcons[book.category]] || icons.book;
+        return `
+        <div class="flash-book" data-id="${book.id}">
+            <div class="flash-book-cover" style="background: ${book.coverColor}">${coverIcon}</div>
+            <div class="flash-book-title">${book.title}</div>
+            <div class="flash-book-price">${formatPrice(book.price)}</div>
+            <div class="flash-book-old-price">${formatPrice(book.oldPrice)}</div>
+        </div>
+        `;
+    }).join('');
+
+    flashBooks.querySelectorAll('.flash-book').forEach(el => {
+        el.addEventListener('click', () => openModal(parseInt(el.dataset.id)));
+    });
+}
+
+// ===== Flash Sale Timer =====
+function startTimer() {
+    // Set deadline to next 3 days from now
+    const deadline = new Date();
+    deadline.setDate(deadline.getDate() + 3);
+    deadline.setHours(0, 0, 0, 0);
+
+    function update() {
+        const now = new Date();
+        const diff = deadline - now;
+        if (diff <= 0) {
+            // Reset to another 3 days
+            deadline.setDate(deadline.getDate() + 3);
+            return update();
+        }
+        const h = Math.floor(diff / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        document.getElementById('hours').textContent = toPersianNum(String(h).padStart(2, '0'));
+        document.getElementById('minutes').textContent = toPersianNum(String(m).padStart(2, '0'));
+        document.getElementById('seconds').textContent = toPersianNum(String(s).padStart(2, '0'));
+    }
+    update();
+    setInterval(update, 1000);
 }
 
 // ===== Cart Functions =====
 function addToCart(bookId) {
     const book = books.find(b => b.id === bookId);
     if (!book) return;
-
     const existing = cart.find(item => item.id === bookId);
     if (existing) {
         existing.qty += 1;
     } else {
         cart.push({
-            id: book.id,
-            title: book.title,
-            author: book.author,
-            price: book.price,
-            cover: book.cover,
-            coverColor: book.coverColor,
-            qty: 1
+            id: book.id, title: book.title, author: book.author,
+            price: book.price, coverColor: book.coverColor,
+            category: book.category, qty: 1
         });
     }
-
     saveCart();
     renderCart();
     cartCount.classList.add('bump');
     setTimeout(() => cartCount.classList.remove('bump'), 400);
-    showToast(`"${book.title}" به سبد اضافه شد ✓`);
+    showToast(`"${book.title}" به سبد اضافه شد`, 'check');
 }
 
 function removeFromCart(bookId) {
@@ -210,12 +376,20 @@ function saveCart() {
     localStorage.setItem('bookland-cart', JSON.stringify(cart));
 }
 
+function cartSubtotalCalc() {
+    return cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+}
+
 function renderCart() {
     const totalItems = cart.reduce((sum, i) => sum + i.qty, 0);
-    const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+    const subtotal = cartSubtotalCalc();
+    const shipping = subtotal >= 200000 ? 0 : (subtotal > 0 ? 45000 : 0);
+    const total = subtotal + shipping;
 
     cartCount.textContent = toPersianNum(totalItems);
+    cartCount.setAttribute('data-count', totalItems);
     cartItemCount.textContent = `(${toPersianNum(totalItems)})`;
+    cartSubtotal.textContent = formatPrice(subtotal);
 
     if (cart.length === 0) {
         cartItems.style.display = 'none';
@@ -223,81 +397,267 @@ function renderCart() {
         cartEmpty.style.display = 'flex';
         return;
     }
-
     cartItems.style.display = 'block';
     cartFooter.style.display = 'block';
     cartEmpty.style.display = 'none';
 
-    cartItems.innerHTML = cart.map(item => `
+    cartItems.innerHTML = cart.map(item => {
+        const coverIcon = icons[bookCoverIcons[item.category]] || icons.book;
+        return `
         <div class="cart-item">
-            <div class="cart-item-cover" style="background: ${item.coverColor}">${item.cover}</div>
+            <div class="cart-item-cover" style="background: ${item.coverColor}">${coverIcon}</div>
             <div class="cart-item-info">
                 <div class="cart-item-title">${item.title}</div>
                 <div class="cart-item-author">${item.author}</div>
                 <div class="cart-item-bottom">
                     <span class="cart-item-price">${formatPrice(item.price * item.qty)}</span>
                     <div class="cart-qty">
-                        <button data-id="${item.id}" data-delta="-1">−</button>
+                        <button data-id="${item.id}" data-delta="-1">${icons.minus}</button>
                         <span>${toPersianNum(item.qty)}</span>
-                        <button data-id="${item.id}" data-delta="1">+</button>
+                        <button data-id="${item.id}" data-delta="1">${icons.plus}</button>
                     </div>
                 </div>
             </div>
-            <button class="cart-item-remove" data-id="${item.id}" aria-label="حذف">✕</button>
+            <button class="cart-item-remove" data-id="${item.id}" aria-label="حذف">${icons.trash}</button>
         </div>
-    `).join('');
+        `;
+    }).join('');
 
-    cartTotal.textContent = formatPrice(totalTotal());
+    cartTotal.textContent = formatPrice(total);
 
-    // Bind events
+    // Update shipping line dynamically
+    const shippingRow = document.querySelector('.summary-row:nth-child(2) span:last-child');
+    if (shippingRow) {
+        if (shipping === 0) {
+            shippingRow.textContent = 'رایگان';
+            shippingRow.classList.add('free-shipping');
+        } else {
+            shippingRow.textContent = formatPrice(shipping);
+            shippingRow.classList.remove('free-shipping');
+        }
+    }
+
     cartItems.querySelectorAll('.cart-qty button').forEach(btn => {
         btn.addEventListener('click', () => {
             changeQty(parseInt(btn.dataset.id), parseInt(btn.dataset.delta));
         });
     });
     cartItems.querySelectorAll('.cart-item-remove').forEach(btn => {
-        btn.addEventListener('click', () => {
-            removeFromCart(parseInt(btn.dataset.id));
-        });
+        btn.addEventListener('click', () => removeFromCart(parseInt(btn.dataset.id)));
     });
 }
 
-function totalTotal() {
-    return cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+// ===== Wishlist =====
+function toggleWishlist(bookId) {
+    const book = books.find(b => b.id === bookId);
+    const idx = wishlist.indexOf(bookId);
+    if (idx > -1) {
+        wishlist.splice(idx, 1);
+        showToast(`از علاقه‌مندی حذف شد`, 'heart');
+    } else {
+        wishlist.push(bookId);
+        showToast(`"${book.title}" به علاقه‌مندی اضافه شد`, 'heart');
+    }
+    localStorage.setItem('bookland-wishlist', JSON.stringify(wishlist));
+    renderWishlist();
+    renderBooks();
 }
 
-// ===== Cart Sidebar =====
+function renderWishlist() {
+    wishlistCount.textContent = toPersianNum(wishlist.length);
+    wishlistCount.setAttribute('data-count', wishlist.length);
+    wishItemCount.textContent = `(${toPersianNum(wishlist.length)})`;
+
+    if (wishlist.length === 0) {
+        wishlistItems.style.display = 'none';
+        wishlistEmpty.style.display = 'flex';
+        return;
+    }
+    wishlistItems.style.display = 'block';
+    wishlistEmpty.style.display = 'none';
+
+    wishlistItems.innerHTML = wishlist.map(id => {
+        const book = books.find(b => b.id === id);
+        if (!book) return '';
+        const coverIcon = icons[bookCoverIcons[book.category]] || icons.book;
+        return `
+        <div class="cart-item">
+            <div class="cart-item-cover" style="background: ${book.coverColor}">${coverIcon}</div>
+            <div class="cart-item-info">
+                <div class="cart-item-title">${book.title}</div>
+                <div class="cart-item-author">${book.author}</div>
+                <div class="cart-item-bottom">
+                    <span class="cart-item-price">${formatPrice(book.price)}</span>
+                </div>
+                <button class="wish-move-btn" data-id="${book.id}">${icons.cart} افزودن به سبد</button>
+            </div>
+            <button class="cart-item-remove" data-id="${book.id}" aria-label="حذف">${icons.trash}</button>
+        </div>
+        `;
+    }).join('');
+
+    wishlistItems.querySelectorAll('.wish-move-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            addToCart(parseInt(btn.dataset.id));
+        });
+    });
+    wishlistItems.querySelectorAll('.cart-item-remove').forEach(btn => {
+        btn.addEventListener('click', () => toggleWishlist(parseInt(btn.dataset.id)));
+    });
+}
+
+// ===== Book Modal =====
+function openModal(bookId) {
+    const book = books.find(b => b.id === bookId);
+    if (!book) return;
+    const coverIcon = icons[bookCoverIcons[book.category]] || icons.book;
+    const inWishlist = wishlist.includes(book.id);
+
+    modalBody.innerHTML = `
+        <div class="modal-cover" style="background: ${book.coverColor}">${coverIcon}</div>
+        <div class="modal-info">
+            <div class="modal-category">${book.categoryName}</div>
+            <h2 class="modal-title">${book.title}</h2>
+            <p class="modal-author">تألیف: ${book.author}</p>
+            <div class="modal-rating">
+                <span class="stars">${starRating(book.rating)}</span>
+                <span class="modal-rating-text">${toPersianNum(book.rating)} از ۵ — ${toPersianNum(book.ratingCount)} نظر</span>
+            </div>
+            <p class="modal-desc">${book.description}</p>
+            <div class="modal-meta">
+                <div class="modal-meta-item">
+                    <span class="modal-meta-label">ناشر</span>
+                    <span class="modal-meta-value">${book.publisher}</span>
+                </div>
+                <div class="modal-meta-item">
+                    <span class="modal-meta-label">تعداد صفحات</span>
+                    <span class="modal-meta-value">${toPersianNum(book.pages)} صفحه</span>
+                </div>
+                <div class="modal-meta-item">
+                    <span class="modal-meta-label">سال انتشار</span>
+                    <span class="modal-meta-value">${toPersianNum(book.year)}</span>
+                </div>
+                <div class="modal-meta-item">
+                    <span class="modal-meta-label">دسته‌بندی</span>
+                    <span class="modal-meta-value">${book.categoryName}</span>
+                </div>
+            </div>
+            <div class="modal-price-row">
+                <div class="modal-prices">
+                    <span class="modal-price">${formatPrice(book.price)}</span>
+                    ${book.oldPrice > 0 ? `<span class="modal-old-price">${formatPrice(book.oldPrice)}</span>` : ''}
+                </div>
+                ${book.discount > 0 ? `<span class="book-discount-badge">٪${toPersianNum(book.discount)} تخفیف</span>` : ''}
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="modalAddCart">${icons.cart} <span>افزودن به سبد</span></button>
+                <button class="modal-wishlist-btn ${inWishlist ? 'active' : ''}" id="modalWish">${inWishlist ? icons.heartFilled : icons.heart}</button>
+            </div>
+        </div>
+    `;
+
+    bookModal.classList.add('active');
+    modalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    document.getElementById('modalAddCart').addEventListener('click', () => {
+        addToCart(book.id);
+    });
+    document.getElementById('modalWish').addEventListener('click', () => {
+        toggleWishlist(book.id);
+        const btn = document.getElementById('modalWish');
+        const isIn = wishlist.includes(book.id);
+        btn.classList.toggle('active', isIn);
+        btn.innerHTML = isIn ? icons.heartFilled : icons.heart;
+    });
+}
+
+function closeModal() {
+    bookModal.classList.remove('active');
+    modalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// ===== Reviews Slider =====
+let reviewIndex = 0;
+function renderReviews() {
+    reviewsTrack.innerHTML = reviews.map(r => `
+        <div class="review-card">
+            <div class="review-header">
+                <div class="review-avatar" style="background: ${r.avatarColor}">${r.avatar}</div>
+                <div>
+                    <div class="review-name">${r.name}</div>
+                    <div class="review-role">${r.role}</div>
+                </div>
+                <div class="review-rating">${starRating(r.rating)}</div>
+            </div>
+            <div class="review-quote">${r.text}</div>
+        </div>
+    `).join('');
+
+    sliderDots.innerHTML = reviews.map((_, i) =>
+        `<button class="slider-dot ${i === 0 ? 'active' : ''}" data-i="${i}" aria-label="اسلاید ${toPersianNum(i+1)}"></button>`
+    ).join('');
+
+    sliderDots.querySelectorAll('.slider-dot').forEach(dot => {
+        dot.addEventListener('click', () => goToReview(parseInt(dot.dataset.i)));
+    });
+}
+
+function goToReview(idx) {
+    const total = reviews.length;
+    const visible = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+    const maxIdx = Math.max(0, total - visible);
+    reviewIndex = Math.max(0, Math.min(idx, maxIdx));
+    const cardWidth = reviewsTrack.querySelector('.review-card').offsetWidth + 24;
+    reviewsTrack.scrollLeft = reviewIndex * cardWidth;
+    sliderDots.querySelectorAll('.slider-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === reviewIndex);
+    });
+}
+
+// ===== Cart / Wishlist Sidebars =====
 function openCart() {
     cartSidebar.classList.add('active');
     cartOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
-
 function closeCart() {
     cartSidebar.classList.remove('active');
     cartOverlay.classList.remove('active');
     document.body.style.overflow = '';
 }
+function openWishlist() {
+    wishlistSidebar.classList.add('active');
+    cartOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeWishlist() {
+    wishlistSidebar.classList.remove('active');
+    if (!cartSidebar.classList.contains('active')) {
+        cartOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
 
 // ===== Toast =====
-function showToast(message) {
-    toast.textContent = message;
+function showToast(message, iconName = 'check') {
+    toastIcon.innerHTML = icons[iconName] || icons.check;
+    toast.querySelector('.toast-text').textContent = message;
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2500);
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
 }
 
 // ===== Event Bindings =====
 function bindEvents() {
-    // Theme
     themeToggle.addEventListener('click', toggleTheme);
 
-    // Mobile menu
     menuToggle.addEventListener('click', () => {
         menuToggle.classList.toggle('active');
         navLinks.classList.toggle('active');
     });
 
-    // Close mobile menu when link clicked
     navLinks.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             menuToggle.classList.remove('active');
@@ -305,34 +665,21 @@ function bindEvents() {
         });
     });
 
-    // Navbar scroll
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-
-        // Back to top
-        if (window.scrollY > 400) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
-        }
-
-        // Active nav link
+        if (window.scrollY > 50) navbar.classList.add('scrolled');
+        else navbar.classList.remove('scrolled');
+        if (window.scrollY > 400) backToTop.classList.add('visible');
+        else backToTop.classList.remove('visible');
         updateActiveNav();
     });
 
-    // Cart
     cartBtn.addEventListener('click', openCart);
     cartClose.addEventListener('click', closeCart);
-    cartOverlay.addEventListener('click', closeCart);
+    cartOverlay.addEventListener('click', () => { closeCart(); closeWishlist(); });
 
-    // Checkout
     checkoutBtn.addEventListener('click', () => {
         if (cart.length === 0) return;
-        showToast('سفارش ثبت شد! در حال انتقال به درگاه پرداخت... 🎉');
+        showToast('سفارش ثبت شد! در حال انتقال به درگاه پرداخت...', 'check');
         setTimeout(() => {
             cart = [];
             saveCart();
@@ -341,13 +688,11 @@ function bindEvents() {
         }, 1500);
     });
 
-    // Search
     searchInput.addEventListener('input', e => {
         searchQuery = e.target.value;
         renderBooks();
     });
 
-    // Filters
     categoryFilter.addEventListener('change', e => {
         activeCategory = e.target.value;
         renderBooks();
@@ -358,27 +703,42 @@ function bindEvents() {
         renderBooks();
     });
 
-    // Back to top
     backToTop.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Newsletter
     newsletterForm.addEventListener('submit', e => {
         e.preventDefault();
-        const email = newsletterForm.querySelector('input').value;
-        showToast('عضویت در خبرنامه با موفقیت انجام شد 📨');
+        showToast('عضویت در خبرنامه با موفقیت انجام شد', 'bell');
         newsletterForm.reset();
     });
 
-    // Keyboard
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
-            closeCart();
+            closeCart(); closeWishlist(); closeModal();
             menuToggle.classList.remove('active');
             navLinks.classList.remove('active');
         }
     });
+
+    // Modal
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', closeModal);
+
+    // Wishlist
+    wishlistBtn.addEventListener('click', openWishlist);
+    wishClose.addEventListener('click', closeWishlist);
+    startShopping.addEventListener('click', () => {
+        closeCart();
+        document.getElementById('books').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Reviews slider
+    prevReviewBtn.addEventListener('click', () => goToReview(reviewIndex - 1));
+    nextReviewBtn.addEventListener('click', () => goToReview(reviewIndex + 1));
+
+    // Window resize - recompute slider
+    window.addEventListener('resize', () => goToReview(reviewIndex));
 }
 
 // ===== Active Nav Update =====
@@ -386,18 +746,12 @@ function updateActiveNav() {
     const sections = document.querySelectorAll('section[id]');
     const navItems = document.querySelectorAll('.nav-link');
     let current = '';
-
     sections.forEach(section => {
         const top = section.offsetTop - 100;
-        if (window.scrollY >= top) {
-            current = section.id;
-        }
+        if (window.scrollY >= top) current = section.id;
     });
-
     navItems.forEach(item => {
         item.classList.remove('active');
-        if (item.getAttribute('href') === '#' + current) {
-            item.classList.add('active');
-        }
+        if (item.getAttribute('href') === '#' + current) item.classList.add('active');
     });
 }
