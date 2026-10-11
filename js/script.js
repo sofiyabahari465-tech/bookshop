@@ -129,6 +129,13 @@ function injectIcons() {
     // Slider arrows
     prevReviewBtn.innerHTML = icons.chevronRight;
     nextReviewBtn.innerHTML = icons.chevronLeft;
+
+    // Bottom nav icons
+    document.getElementById('bnHome').innerHTML = icons.home;
+    document.getElementById('bnBooks').innerHTML = icons.book;
+    document.getElementById('bnCat').innerHTML = icons.grid;
+    document.getElementById('bnSearchIcon').innerHTML = icons.search;
+    document.getElementById('bnCartIcon').innerHTML = icons.cart;
 }
 
 // ===== Theme =====
@@ -390,6 +397,13 @@ function renderCart() {
     cartCount.setAttribute('data-count', totalItems);
     cartItemCount.textContent = `(${toPersianNum(totalItems)})`;
     cartSubtotal.textContent = formatPrice(subtotal);
+
+    // Update bottom nav cart badge
+    const bnCartCount = document.getElementById('bnCartCount');
+    if (bnCartCount) {
+        bnCartCount.textContent = toPersianNum(totalItems);
+        bnCartCount.setAttribute('data-count', totalItems);
+    }
 
     if (cart.length === 0) {
         cartItems.style.display = 'none';
@@ -737,6 +751,19 @@ function bindEvents() {
     prevReviewBtn.addEventListener('click', () => goToReview(reviewIndex - 1));
     nextReviewBtn.addEventListener('click', () => goToReview(reviewIndex + 1));
 
+    // Bottom nav
+    document.getElementById('bnSearch').addEventListener('click', () => {
+        document.getElementById('books').scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => searchInput.focus(), 600);
+    });
+    document.getElementById('bnCart').addEventListener('click', openCart);
+    document.querySelectorAll('.bottom-nav-item[data-target]').forEach(item => {
+        item.addEventListener('click', () => {
+            document.querySelectorAll('.bottom-nav-item').forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+        });
+    });
+
     // Window resize - recompute slider
     window.addEventListener('resize', () => goToReview(reviewIndex));
 }
@@ -745,6 +772,7 @@ function bindEvents() {
 function updateActiveNav() {
     const sections = document.querySelectorAll('section[id]');
     const navItems = document.querySelectorAll('.nav-link');
+    const bottomItems = document.querySelectorAll('.bottom-nav-item[data-target]');
     let current = '';
     sections.forEach(section => {
         const top = section.offsetTop - 100;
@@ -753,5 +781,9 @@ function updateActiveNav() {
     navItems.forEach(item => {
         item.classList.remove('active');
         if (item.getAttribute('href') === '#' + current) item.classList.add('active');
+    });
+    bottomItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.target === current) item.classList.add('active');
     });
 }
