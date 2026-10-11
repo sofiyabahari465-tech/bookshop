@@ -73,69 +73,67 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ===== Inject Static Icons =====
+function setIcon(id, svg) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = svg;
+}
+
 function injectIcons() {
-    document.getElementById('bannerIcon').innerHTML = icons.truck;
-    document.getElementById('logoIcon').innerHTML = icons.logo;
-    document.getElementById('footerLogoIcon').innerHTML = icons.logo;
-    document.getElementById('themeIcon').innerHTML = icons.moon;
-    document.getElementById('wishlistIcon').innerHTML = icons.heart;
-    document.getElementById('cartIcon').innerHTML = icons.cart;
-    document.getElementById('heroBadgeIcon').innerHTML = icons.sparkles;
-    document.getElementById('btnArrow1').innerHTML = icons.arrowLeft;
-    document.getElementById('searchIcon').innerHTML = icons.search;
-    document.getElementById('noResIcon').innerHTML = icons.book;
-    document.getElementById('flashIcon').innerHTML = icons.flame;
-    document.getElementById('newsIcon').innerHTML = icons.bell;
-    document.getElementById('backTopIcon').innerHTML = icons.arrowUp;
-    document.getElementById('cartHeaderIcon').innerHTML = icons.cart;
-    document.getElementById('cartCloseIcon').innerHTML = icons.close;
-    document.getElementById('cartEmptyIcon').innerHTML = icons.shoppingBag;
-    document.getElementById('wishHeaderIcon').innerHTML = icons.heart;
-    document.getElementById('wishCloseIcon').innerHTML = icons.close;
-    document.getElementById('wishEmptyIcon').innerHTML = icons.heart;
-    document.getElementById('modalCloseIcon').innerHTML = icons.close;
+    setIcon('bannerIcon', icons.truck);
+    setIcon('logoIcon', icons.logo);
+    setIcon('footerLogoIcon', icons.logo);
+    setIcon('themeIcon', icons.moon);
+    setIcon('wishlistIcon', icons.heart);
+    setIcon('cartIcon', icons.cart);
+    setIcon('heroBadgeIcon', icons.sparkles);
+    setIcon('btnArrow1', icons.arrowLeft);
+    setIcon('searchIcon', icons.search);
+    setIcon('noResIcon', icons.book);
+    setIcon('flashIcon', icons.flame);
+    setIcon('newsIcon', icons.bell);
+    setIcon('backTopIcon', icons.arrowUp);
+    setIcon('cartHeaderIcon', icons.cart);
+    setIcon('cartCloseIcon', icons.close);
+    setIcon('cartEmptyIcon', icons.shoppingBag);
+    setIcon('wishHeaderIcon', icons.heart);
+    setIcon('wishCloseIcon', icons.close);
+    setIcon('wishEmptyIcon', icons.heart);
+    setIcon('modalCloseIcon', icons.close);
 
     // Features
-    document.getElementById('featIcon1').innerHTML = icons.truck;
-    document.getElementById('featIcon2').innerHTML = icons.shield;
-    document.getElementById('featIcon3').innerHTML = icons.refresh;
-    document.getElementById('featIcon4').innerHTML = icons.headset;
+    setIcon('featIcon1', icons.truck);
+    setIcon('featIcon2', icons.shield);
+    setIcon('featIcon3', icons.refresh);
+    setIcon('featIcon4', icons.headset);
 
     // About
-    document.getElementById('aboutIcon1').innerHTML = icons.sparkles;
-    document.getElementById('aboutIcon2').innerHTML = icons.eye;
-    document.getElementById('check1').innerHTML = icons.check;
-    document.getElementById('check2').innerHTML = icons.check;
-    document.getElementById('check3').innerHTML = icons.check;
-    document.getElementById('check4').innerHTML = icons.check;
+    setIcon('aboutIcon1', icons.sparkles);
+    setIcon('aboutIcon2', icons.eye);
+    setIcon('check1', icons.check);
+    setIcon('check2', icons.check);
+    setIcon('check3', icons.check);
+    setIcon('check4', icons.check);
 
     // Footer
-    document.getElementById('socialIg').innerHTML = icons.instagram;
-    document.getElementById('socialTg').innerHTML = icons.telegram;
-    document.getElementById('socialTw').innerHTML = icons.twitter;
-    document.getElementById('socialYt').innerHTML = icons.youtube;
-    document.getElementById('addrIcon').innerHTML = icons.mapPin;
-    document.getElementById('phoneIcon').innerHTML = icons.phone;
-    document.getElementById('mailIcon').innerHTML = icons.mail;
-    document.getElementById('clockIcon').innerHTML = icons.clock;
-
-    // Floating books
-    document.getElementById('fb1').innerHTML = icons.coverNovel;
-    document.getElementById('fb2').innerHTML = icons.coverScience;
-    document.getElementById('fb3').innerHTML = icons.coverBusiness;
-    document.getElementById('fb4').innerHTML = icons.coverTech;
-    document.getElementById('fb5').innerHTML = icons.coverPsychology;
+    setIcon('socialIg', icons.instagram);
+    setIcon('socialTg', icons.telegram);
+    setIcon('socialTw', icons.twitter);
+    setIcon('socialYt', icons.youtube);
+    setIcon('addrIcon', icons.mapPin);
+    setIcon('phoneIcon', icons.phone);
+    setIcon('mailIcon', icons.mail);
+    setIcon('clockIcon', icons.clock);
 
     // Slider arrows
-    prevReviewBtn.innerHTML = icons.chevronRight;
-    nextReviewBtn.innerHTML = icons.chevronLeft;
+    if (prevReviewBtn) prevReviewBtn.innerHTML = icons.chevronRight;
+    if (nextReviewBtn) nextReviewBtn.innerHTML = icons.chevronLeft;
 
     // Bottom nav icons
-    document.getElementById('bnHome').innerHTML = icons.home;
-    document.getElementById('bnBooks').innerHTML = icons.book;
-    document.getElementById('bnCat').innerHTML = icons.grid;
-    document.getElementById('bnSearchIcon').innerHTML = icons.search;
-    document.getElementById('bnCartIcon').innerHTML = icons.cart;
+    setIcon('bnHome', icons.home);
+    setIcon('bnBooks', icons.book);
+    setIcon('bnCat', icons.grid);
+    setIcon('bnSearchIcon', icons.search);
+    setIcon('bnCartIcon', icons.cart);
 }
 
 // ===== Theme =====
