@@ -1719,13 +1719,13 @@ img {
 
 /* ===== ICON BUTTONS ===== */
 .icon-btn {
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
     border: 1.5px solid var(--border);
     background: var(--bg-card);
     border-radius: 50%;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
