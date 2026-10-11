@@ -62,12 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     renderCategories();
     renderBooks();
-    renderFlashSale();
     populateCategoryFilter();
     renderCart();
     renderWishlist();
     renderReviews();
-    startTimer();
     bindEvents();
     initScrollReveal();
 });
@@ -89,7 +87,6 @@ function injectIcons() {
     setIcon('btnArrow1', icons.arrowLeft);
     setIcon('searchIcon', icons.search);
     setIcon('noResIcon', icons.book);
-    setIcon('flashIcon', icons.flame);
     setIcon('newsIcon', icons.bell);
     setIcon('backTopIcon', icons.arrowUp);
     setIcon('cartHeaderIcon', icons.cart);
